@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9152983982855572896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9152983982855572902}
+  - component: {fileID: 9152983982855572897}
+  m_Layer: 0
+  m_Name: ObjectPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9152983982855572902
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9152983982855572896}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.3346107, y: -0.9480487, z: -5.7712536}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9152983982855572897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9152983982855572896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b5c4cd952ef9704bb27ffea0c2bc21b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cube: {fileID: 5890548623114498820, guid: cb4fdf03aec4f3543aee34c2ff6c5f21, type: 3}
+  fireTrail: {fileID: 7736945348429138472, guid: fd11ebca41f380841883aaee1658a5eb,
+    type: 3}
+  fireball: {fileID: 6665520928348338087, guid: 69d39b62543e2aa42bc5b443ff087211,
+    type: 3}
+  fireball2: {fileID: 3476147783912642080, guid: 947be377fc255244c8f2df9748d0aa85,
+    type: 3}
+  electricBall: {fileID: 3237580352192427517, guid: 7e2a6267fd8d4e149a2799993828ea85,
+    type: 3}
+  electricBall2: {fileID: 4595641063727255374, guid: ec22b122d811410498f4b08e9ca7fcb0,
+    type: 3}
+  arrow1: {fileID: 189224, guid: 79e07dabb04471b43a600abdb7bf4e53, type: 3}
+  explosion1: {fileID: 5318538970361107395, guid: af22733abd0a362449dce93a7b31770e,
+    type: 3}
+  explosion2: {fileID: 4782980284195082588, guid: 99b959dbdc31e954ba89696c8d504dc9,
+    type: 3}
+  explosion3: {fileID: 3638997933681749606, guid: 57dedbdfc15ad2f4a9575e97687e417a,
+    type: 3}
