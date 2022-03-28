@@ -1,4 +1,4 @@
-# portfolio-magic_cube
+# Unity 포트폴리오
 
 ## 제작 환경 : Unity, C#
 
