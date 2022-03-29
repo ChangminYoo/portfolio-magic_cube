@@ -63,14 +63,17 @@ public class IngameManager : MonoBehaviour
     int waveGameClearPoint = 100;
     int waveGameLevel = 1;
     [SerializeField]
+    int waveGameSpawnTerm = 10;
+    [SerializeField]
     int weaponDropPoint = 30;
 
-    public int WaveGameLevel { get { return waveGameLevel; } }
-    public float PlayerHP { get { return playerHp; } }
-    public float PlayerStamina { get { return playerStamina; } }
-    public float Monster1HP { get { return monter1Hp; } }
-    public int WaveGameClearPoint { get { return waveGameClearPoint; } }
-    public int WeaponDropPoint { get {return weaponDropPoint; } }
+    public int WaveGameLevel => waveGameLevel;
+    public float PlayerHP => playerHp;
+    public float PlayerStamina => playerStamina;
+    public float Monster1HP => monter1Hp;
+    public int WaveGameClearPoint => waveGameClearPoint;
+    public int WeaponDropPoint => weaponDropPoint;
+    public int WaveGameSpawnTerm => waveGameSpawnTerm;
 
     void Awake()
     {

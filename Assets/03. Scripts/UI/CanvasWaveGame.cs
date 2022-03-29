@@ -10,6 +10,7 @@ public class CanvasWaveGame : MonoBehaviour
     TextMeshProUGUI pointText;
     TextMeshProUGUI gameoverText;
     TextMeshProUGUI startText;
+    TextMeshProUGUI resultText;
 
     Transform gameResult;
     Button exitButton;
@@ -27,6 +28,7 @@ public class CanvasWaveGame : MonoBehaviour
         startText = transform.Find("StartText").GetComponent<TextMeshProUGUI>();
         gameResult = transform.Find("GameResult");
         gameoverText = gameResult.Find("GameOverText").GetComponent<TextMeshProUGUI>();
+        resultText = gameResult.Find("ResultText").GetComponent<TextMeshProUGUI>();
         exitButton = gameResult.Find("ExitButton").GetComponent<Button>();
 
         exitButton.onClick.AddListener(() => SceneLoadManager.Instance.LoadScene(SceneLoadManager.Instance.TitleScene));
@@ -66,7 +68,12 @@ public class CanvasWaveGame : MonoBehaviour
 
     void WaveStartEnd(bool isStart)
     {
-        if (!isStart)
+        if (isStart)
+        {
+            startTime = Time.time;
+            bStart = true;
+        }
+        else
         {
             gameResult.gameObject.SetActive(true);
 
@@ -74,14 +81,10 @@ public class CanvasWaveGame : MonoBehaviour
             {
                 gameoverText.text = "Game Clear!";
             }
+            resultText.text = "Result : " + totalPoint.ToString();
 
             bEnd = true;
             bStart = false;
-        }
-        else
-        {
-            startTime = Time.time;
-            bStart = true;
         }
     }
 

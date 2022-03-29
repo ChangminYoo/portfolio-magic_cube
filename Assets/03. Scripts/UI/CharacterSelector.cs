@@ -221,7 +221,6 @@ public class CharacterSelector : MonoBehaviour
 
     void SetFaceCustomize()
     {
-        Debug.Log(faceToggleIndex);
         if (customizeFace.GetChild(faceToggleIndex).GetComponent<Toggle>().isOn)
         {
             int activeNum = 0;

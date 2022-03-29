@@ -15,10 +15,10 @@ public class SceneLoadManager : MonoBehaviour
 
     string currentScene = "Title";
 
-    public string TitleScene { get { return "Title"; } }
-    public string SelectScene { get { return "SelectScene"; } }
-    public string WaveGameScene { get { return "Game1"; } }
-    public string CubeGameScene { get { return "Game2"; } }
+    public string TitleScene => "Title";
+    public string SelectScene => "SelectScene";
+    public string WaveGameScene => "Game1";
+    public string CubeGameScene => "Game2";
 
 
     protected static SceneLoadManager instance;

@@ -5407,6 +5407,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MonsterSpawner (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 657161915202554203, guid: d842a95779bf0bd4480916cd302289af,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 657161915202554204, guid: d842a95779bf0bd4480916cd302289af,
         type: 3}
       propertyPath: m_RootOrder
@@ -26476,7 +26481,7 @@ PrefabInstance:
     - target: {fileID: 657161915202554204, guid: d842a95779bf0bd4480916cd302289af,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 76.6
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 657161915202554204, guid: d842a95779bf0bd4480916cd302289af,
         type: 3}
@@ -26486,7 +26491,7 @@ PrefabInstance:
     - target: {fileID: 657161915202554204, guid: d842a95779bf0bd4480916cd302289af,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 60.3
+      value: -5.8
       objectReference: {fileID: 0}
     - target: {fileID: 657161915202554204, guid: d842a95779bf0bd4480916cd302289af,
         type: 3}
