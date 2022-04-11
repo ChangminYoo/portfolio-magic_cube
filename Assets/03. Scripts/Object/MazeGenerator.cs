@@ -27,6 +27,9 @@ public class MazeGenerator : MonoBehaviour
     [Range(5, 100)]
     int mazeHeight = 10;
 
+    [SerializeField]
+    GameObject pathFindObject;
+
     int wallSize = 1;
     MazeCell[,] maze;
     int[] dx = new int[4] { 0, 0, -1, 1 };
@@ -40,6 +43,16 @@ public class MazeGenerator : MonoBehaviour
     {
         Generate();
         Render();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            MazePathFinder mp = new MazePathFinder();
+            List<Pos> points = mp.StartPathFind(maze, mazeWidth, mazeHeight, wallSize);
+            RenderPath(points);
+        }
     }
 
     void Render()
@@ -75,22 +88,38 @@ public class MazeGenerator : MonoBehaviour
                 // right
                 if (w == mazeWidth - wallSize)
                 {
-                    Transform rightWall = Instantiate(wallObject, transform).transform;
-                    rightWall.position = position + (Vector3.right * half);
-                    rightWall.eulerAngles = new Vector3(0, 90, 0);
-                    rightWall.localScale = new Vector3(wallSize, rightWall.localScale.y, rightWall.localScale.z);
-                    rightWall.name = "rightWall" + w + "__" + h;
+                    if (maze[w, h].RightWall)
+                    {
+                        Transform rightWall = Instantiate(wallObject, transform).transform;
+                        rightWall.position = position + (Vector3.right * half);
+                        rightWall.eulerAngles = new Vector3(0, 90, 0);
+                        rightWall.localScale = new Vector3(wallSize, rightWall.localScale.y, rightWall.localScale.z);
+                        rightWall.name = "rightWall" + w + "__" + h;
+                    }
                 }
 
                 // bottom
                 if (h == 0)
                 {
-                    Transform bottomWall = Instantiate(wallObject, transform).transform;
-                    bottomWall.position = position + (Vector3.forward * -half);
-                    bottomWall.localScale = new Vector3(wallSize, bottomWall.localScale.y, bottomWall.localScale.z);
-                    bottomWall.name = "bottomWall" + w + "__" + h;
+                    if (maze[w, h].BottomWall)
+                    {
+                        Transform bottomWall = Instantiate(wallObject, transform).transform;
+                        bottomWall.position = position + (Vector3.forward * -half);
+                        bottomWall.localScale = new Vector3(wallSize, bottomWall.localScale.y, bottomWall.localScale.z);
+                        bottomWall.name = "bottomWall" + w + "__" + h;
+                    }
                 }
             }
+        }
+    }
+
+    public void RenderPath(List<Pos> points)
+    {
+        float half = wallSize * 0.5f;
+        for (int i = 0; i < points.Count; i++)
+        {
+            Vector3 position = new Vector3(-mazeWidth * 0.5f + points[i].X + half, 0.5f, -mazeHeight * 0.5f + points[i].Y + half);
+            Instantiate(pathFindObject, position, Quaternion.identity, transform);
         }
     }
 
@@ -105,6 +134,8 @@ public class MazeGenerator : MonoBehaviour
                 maze[w, h].Visited = false;
             }
         }
+        maze[0, 0].BottomWall = false;
+        maze[mazeWidth - 1, mazeHeight - 1].TopWall = false;
 
         HuntAndKill();
     }
@@ -112,51 +143,48 @@ public class MazeGenerator : MonoBehaviour
 	#region HuntAndKill Algorithm
 	void HuntAndKill()
     {
-        currX = Random.Range(0, mazeWidth);
-        currY = Random.Range(0, mazeHeight);
-
         while (!allVisited)
         {
-            Walk(currX, currY);
+            Walk();
             Hunt();
         }
     }
 
-    void Walk(int x, int y)
+    void Walk()
     {
-        int direction = Random.Range(1, 5);
-
-        int nextX = x + dx[direction - 1];
-        int nextY = y + dy[direction - 1];
-
-        if (IsWithInBounds(nextX, nextY) && maze[nextX, nextY].Visited == false)
+        while (FindWalkablePath(currX, currY))
         {
-            if (direction == 1)
-            {
-                maze[x, y].TopWall = false;
-                maze[nextX, nextY].BottomWall = false;
-                currY++;
-            }
-            else if (direction == 2)
-            {
-                maze[x, y].BottomWall = false;
-                maze[nextX, nextY].TopWall = false;
-                currX--;
-            }
-            else if (direction == 3)
-            {
-                maze[x, y].LeftWall = false;
-                maze[nextX, nextY].RightWall = false;
-                currX--;
-            }
-            else if (direction == 4)
-            {
-                maze[x, y].RightWall = false;
-                maze[nextX, nextY].LeftWall = false;
-                currX++;
-            }
+            int direction = Random.Range(1, 5);
 
-            maze[x, y].Visited = true;
+            int nextX = currX + dx[direction - 1];
+            int nextY = currY + dy[direction - 1];
+
+            if (IsWithInBounds(nextX, nextY) && IsCellVisited(nextX, nextY) == false)
+            {
+                if (direction == 1)
+                {
+                    maze[currX, currY].TopWall = false;
+                    maze[nextX, nextY].BottomWall = false;
+                }
+                else if (direction == 2)
+                {
+                    maze[currX, currY].BottomWall = false;
+                    maze[nextX, nextY].TopWall = false;
+                }
+                else if (direction == 3)
+                {
+                    maze[currX, currY].LeftWall = false;
+                    maze[nextX, nextY].RightWall = false;
+                }
+                else if (direction == 4)
+                {
+                    maze[currX, currY].RightWall = false;
+                    maze[nextX, nextY].LeftWall = false;
+                }
+                currX = nextX;
+                currY = nextY;
+                maze[currX, currY].Visited = true;
+            }
         }
     }
 
@@ -213,6 +241,8 @@ public class MazeGenerator : MonoBehaviour
                         maze[nextX, nextY].LeftWall = false;
                     }
 
+                    currX = x;
+                    currY = y;
                     maze[x, y].Visited = true;
                     return;
                 }
@@ -222,6 +252,7 @@ public class MazeGenerator : MonoBehaviour
     }
 	#endregion
 
+
 	bool IsCellVisited(int x, int y)
     {
         return maze[x, y].Visited;
@@ -230,9 +261,9 @@ public class MazeGenerator : MonoBehaviour
     bool CheckNextCellVisited(int x, int y)
     {
         if (y > 0 && IsCellVisited(x, y - 1)) return true;
-        if (y + 1 < mazeHeight && IsCellVisited(x, y + 1)) return true;
+        if (y + 2 < mazeHeight && IsCellVisited(x, y + 1)) return true;
         if (x > 0 && IsCellVisited(x - 1, y)) return true;
-        if (x + 1 < mazeWidth && IsCellVisited(x + 1, y)) return true;
+        if (x + 2 < mazeWidth && IsCellVisited(x + 1, y)) return true;
         return false;
     }
 
@@ -241,4 +272,12 @@ public class MazeGenerator : MonoBehaviour
         return (x >= 0 && x < mazeWidth && y >= 0 && y < mazeHeight);
     }
 
+    bool FindWalkablePath(int x, int y)
+    {
+        if (IsWithInBounds(x, y - 1) && !IsCellVisited(x, y - 1)) return true;
+        if (IsWithInBounds(x, y + 1) && !IsCellVisited(x, y + 1)) return true;
+        if (IsWithInBounds(x - 1, y) && !IsCellVisited(x - 1, y)) return true;
+        if (IsWithInBounds(x + 1, y) && !IsCellVisited(x + 1, y)) return true;
+        return false;
+    }
 }
