@@ -22,7 +22,14 @@
     - 상태에 따른 idle, chase, attack, dead 구현.
 
     ![monster](https://user-images.githubusercontent.com/22344444/160320111-48e338fa-2983-442d-9bdc-f8d043c65ad8.gif)
+    
 
+## 진행중
+- Hunt_And_Kill 알고리즘 사용한 미로 구현 - 완
+- A Star 알고리즘 사용한 미로 길찾기 구현 - 완
+![maze1](https://user-images.githubusercontent.com/22344444/163316943-8988c604-fd75-46ec-b79e-263ff6f2a5d5.png)
+
+- 미로 게임 기획및 제작
 
 ## 앞으로 추가할 내용
 - 시네머신, 타임라인 이용한 간단한 연출
