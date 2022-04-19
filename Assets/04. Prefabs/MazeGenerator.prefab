@@ -47,5 +47,9 @@ MonoBehaviour:
     type: 3}
   floorObject: {fileID: 6796624657504526031, guid: d68ced851d07c2c4481cacd251d53f1a,
     type: 3}
+  pathFindObject: {fileID: 6798220629095814325, guid: 08f5df1d40a67674788b11b4ef71cb97,
+    type: 3}
+  entranceObject: {fileID: 5498006094361719297, guid: 2675106d26a85e14599633ddeb50866e,
+    type: 3}
   mazeWidth: 10
   mazeHeight: 10

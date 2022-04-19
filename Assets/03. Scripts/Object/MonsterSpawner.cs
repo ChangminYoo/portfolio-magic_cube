@@ -79,7 +79,7 @@ public class MonsterSpawner : MonoBehaviour
         if (NavMesh.SamplePosition(spawnPos, out hit, 5f, NavMesh.AllAreas))
         {
             spawnPos = hit.position;
-            Debug.Log(spawnPos);
+            Debug.Log("Monster Spawn!! position : " + spawnPos);
         }
     }
 }

@@ -22,7 +22,11 @@ public class CanvasMonsterHP : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.LookAt(Camera.main.transform, Vector3.up);  
+        transform.LookAt(Camera.main.transform, Vector3.up);
+        if (hpSlider.value <= 0)
+		{
+            gameObject.SetActive(false);
+		}
     }
 
     private void OnDestroy()

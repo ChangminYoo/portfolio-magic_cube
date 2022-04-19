@@ -371,12 +371,6 @@ PrefabInstance:
       propertyPath: mazeHeight
       value: 30
       objectReference: {fileID: 0}
-    - target: {fileID: 3336900330349717889, guid: 6d60f3ad7da31c94e9f0b03a21ba27b8,
-        type: 3}
-      propertyPath: pathFindObject
-      value: 
-      objectReference: {fileID: 6798220629095814325, guid: 08f5df1d40a67674788b11b4ef71cb97,
-        type: 3}
     - target: {fileID: 3336900330349717894, guid: 6d60f3ad7da31c94e9f0b03a21ba27b8,
         type: 3}
       propertyPath: m_Name

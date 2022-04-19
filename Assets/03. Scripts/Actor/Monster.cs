@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class Monster : Actor
 {
@@ -8,7 +9,8 @@ public class Monster : Actor
         Idle,
         Patrol,
         Chase,
-        Attack
+        Attack,
+        KnockBack
     }
 
     [SerializeField]
@@ -74,6 +76,12 @@ public class Monster : Actor
                 break;
         }
         CheckTargetInOverlap();
+    }
+
+    public override void KnockBack(Vector3 dir, float power = 0.5f)
+    {
+        state = EnState.KnockBack;
+        StartCoroutine(StartKnockBack(dir, power));
     }
 
     public void InitalizeMonster(int hp, int damage, int radius)
@@ -151,7 +159,23 @@ public class Monster : Actor
         }
     }
 
-    void Dead()
+    IEnumerator StartKnockBack(Vector3 dir, float force)
+	{
+        float t = 0f;
+        float speed = 2f;
+        Vector3 des = transform.position + force * dir;
+        while (t < 1f)
+		{
+            transform.position = Vector3.Lerp(transform.position, des, t);
+
+            t += Time.deltaTime * speed;
+            yield return null;
+		}
+
+        state = EnState.Idle;
+	}
+
+	void Dead()
     {
         navAgent.enabled = false;
         collider.enabled = false;

@@ -23,6 +23,7 @@ public class BarbarianClass : BaseClass
 			if (target[i] != null)
 			{
 				GameEventManager.Instance.OnEventChangeHP(target[i], damage);
+				target[i].GetComponent<Actor>().KnockBack(target[i].position - transform.position);
 			}
 		}
 	}

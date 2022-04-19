@@ -38,13 +38,15 @@ public class Actor : MonoBehaviour
 		
 		stateMachine = new StateMachine(this);
 	}
-	protected virtual void Update()
-	{
-	}
+	protected virtual void Update() { }
 	#region Movement
 	public virtual void Move(bool isDash, Vector2 inputDir) { }
 
 	public virtual void Jump() { }
+
+	public virtual void KnockBack(Vector3 dir, float power = 1f)
+	{
+	}
 
 	protected void LookTarget(Transform tr)
 	{

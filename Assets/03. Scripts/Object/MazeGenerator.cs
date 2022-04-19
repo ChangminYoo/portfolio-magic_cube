@@ -20,15 +20,18 @@ public class MazeGenerator : MonoBehaviour
     GameObject floorObject;
 
     [SerializeField]
+    GameObject pathFindObject;
+
+    [SerializeField]
+    GameObject entranceObject;
+
+    [SerializeField]
     [Range(5, 100)]
     int mazeWidth = 10;
 
     [SerializeField]
     [Range(5, 100)]
     int mazeHeight = 10;
-
-    [SerializeField]
-    GameObject pathFindObject;
 
     int wallSize = 1;
     MazeCell[,] maze;
@@ -53,6 +56,19 @@ public class MazeGenerator : MonoBehaviour
             List<Pos> points = mp.StartPathFind(maze, mazeWidth, mazeHeight, wallSize);
             RenderPath(points);
         }
+    }
+    
+    void CreateEntranceAndExit()
+	{
+        maze[0, 0].BottomWall = false;
+        maze[mazeWidth - 1, mazeHeight - 1].TopWall = false;
+
+        Transform entranceFloor = Instantiate(entranceObject, transform).transform;
+        entranceFloor.position = new Vector3(-mazeWidth * 0.5f + wallSize * 0.5f, 0, -mazeHeight * 0.5f - wallSize * 0.5f);
+
+        Transform exitFloor = Instantiate(entranceObject, transform).transform;
+        exitFloor.position = new Vector3(mazeWidth * 0.5f - wallSize * 0.5f, 0, mazeHeight * 0.5f + wallSize * 0.5f);
+        exitFloor.eulerAngles = new Vector3(0, 180, 0);
     }
 
     void Render()
@@ -134,8 +150,8 @@ public class MazeGenerator : MonoBehaviour
                 maze[w, h].Visited = false;
             }
         }
-        maze[0, 0].BottomWall = false;
-        maze[mazeWidth - 1, mazeHeight - 1].TopWall = false;
+
+        CreateEntranceAndExit();
 
         HuntAndKill();
     }
