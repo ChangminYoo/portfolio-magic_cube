@@ -7,8 +7,12 @@ public class CharacterSelector : MonoBehaviour
 {
     [SerializeField]
     Transform characters;
+
     [SerializeField]
     List<Transform> characterList;
+
+    [SerializeField]
+    List<Transform> virtualCamList;
 
     GameObject playerCharacter;
 
@@ -75,7 +79,7 @@ public class CharacterSelector : MonoBehaviour
                 SetFaceCustomize();
             });
         }
-        
+
         playerCharacter = characterList[index].GetChild(0).gameObject;
     }
 
@@ -131,9 +135,9 @@ public class CharacterSelector : MonoBehaviour
         {
             if (index > 0)
             {
-                characterList[index].gameObject.SetActive(false);
+                virtualCamList[index].gameObject.SetActive(false);
                 index--;
-                characterList[index].gameObject.SetActive(true);
+                //virtualCamList[index].gameObject.SetActive(true);
             }
 
             if (index <= 0)
@@ -145,9 +149,9 @@ public class CharacterSelector : MonoBehaviour
         {
             if (index < characters.childCount - 1)
             {
-                characterList[index].gameObject.SetActive(false);
+                //virtualCamList[index].gameObject.SetActive(false);
                 index++;
-                characterList[index].gameObject.SetActive(true);
+                virtualCamList[index].gameObject.SetActive(true);
             }
 
             if (index >= characters.childCount - 1)

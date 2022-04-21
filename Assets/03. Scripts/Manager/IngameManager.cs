@@ -7,6 +7,7 @@ public enum EnGameMode
     None,
     WaveDefence,
     CubeBreak,
+    Maze
 }
 
 public enum EnGameState
@@ -96,27 +97,47 @@ public class IngameManager : MonoBehaviour
         
         GameMode = startGameMode;
         GameState = EnGameState.Start;
-        if (GameMode == EnGameMode.WaveDefence)
-        {
-            classManager.ChangeClass(classManager.CurrentClass);
 
-            StartCoroutine(WaveGameStart());
-        }
+		switch (GameMode)
+		{
+			case EnGameMode.WaveDefence:
+                classManager.ChangeClass(classManager.CurrentClass);
+                StartCoroutine(WaveGameStart());
+                break;
+			case EnGameMode.CubeBreak:
+				break;
+			case EnGameMode.Maze:
+				break;
+			default:
+				break;
+		}
+
     }
 
     public void EndMode()
     {
         GameState = EnGameState.End;
 
-        if (GameMode == EnGameMode.WaveDefence)
+        switch (GameMode)
         {
-            GameEventManager.instance.OnEventWaveStart(false);
-            StopCoroutine(WaveGameStart());
-            ClearAllObject();
+            case EnGameMode.WaveDefence:
+                GameEventManager.instance.OnEventWaveStart(false);
+                StopCoroutine(WaveGameStart());
+                ClearAllObject();
+                break;
+            case EnGameMode.CubeBreak:
+                break;
+            case EnGameMode.Maze:
+                break;
+            default:
+                break;
         }
+
+        GameMode = EnGameMode.None;
     }
 
-    IEnumerator WaveGameStart()
+	#region WaveGame
+	IEnumerator WaveGameStart()
     {
         yield return new WaitForSeconds(3f);
         GameEventManager.instance.OnEventWaveStart(true);
@@ -170,4 +191,12 @@ public class IngameManager : MonoBehaviour
             spawners[i].EnableSpawn = false;
         }
     }
+	#endregion WaveGame
+
+	#region CubeBreak;
+
+	#endregion CubeBreak;
+
+	#region MazeGame
+	#endregion MazeGame
 }

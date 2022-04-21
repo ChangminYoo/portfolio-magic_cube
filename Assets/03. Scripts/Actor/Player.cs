@@ -200,6 +200,8 @@ public class Player : Actor
 
 	void StaminaRestore(float restore)
 	{
+		if (IngameManager.Instance.GameMode != EnGameMode.WaveDefence) return;
+
 		if (stateMachine.CurrentState != stateMachine.DashState)
 		{
 			restore *= (0.5f * Time.deltaTime);

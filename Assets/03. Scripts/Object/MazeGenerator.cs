@@ -42,32 +42,57 @@ public class MazeGenerator : MonoBehaviour
     int currY = 0;
     bool allVisited = false;
 
+    Vector3 startPos;
+    Vector3 endPos;
+
+    List<GameObject> pathObjects;
+    MazePathFinder mp;
+    Transform player;
+
     void Start()
     {
         Generate();
         Render();
+        SetCharacter();
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            MazePathFinder mp = new MazePathFinder();
-            List<Pos> points = mp.StartPathFind(maze, mazeWidth, mazeHeight, wallSize);
-            RenderPath(points);
+            RenderExitPath();
         }
+
+        if (Vector3.Distance(player.position, endPos) < 0.8f)
+		{
+            Debug.Log("µµÂø!!!");
+		}
     }
-    
+
+    void SetCharacter()
+	{
+        player = GameObject.Find("Player").transform.GetChild(0);
+        player.position = startPos;
+    }
+
+    public void RenderExitPath()
+	{
+        mp = new MazePathFinder();
+        List<Pos> points = mp.StartPathFind(maze, mazeWidth, mazeHeight, wallSize);
+
+        RenderPath(points);
+    }
+
     void CreateEntranceAndExit()
 	{
         maze[0, 0].BottomWall = false;
         maze[mazeWidth - 1, mazeHeight - 1].TopWall = false;
 
         Transform entranceFloor = Instantiate(entranceObject, transform).transform;
-        entranceFloor.position = new Vector3(-mazeWidth * 0.5f + wallSize * 0.5f, 0, -mazeHeight * 0.5f - wallSize * 0.5f);
+        startPos = entranceFloor.position = new Vector3(-mazeWidth * 0.5f + wallSize * 0.5f, 0, -mazeHeight * 0.5f - wallSize * 0.5f);
 
         Transform exitFloor = Instantiate(entranceObject, transform).transform;
-        exitFloor.position = new Vector3(mazeWidth * 0.5f - wallSize * 0.5f, 0, mazeHeight * 0.5f + wallSize * 0.5f);
+        endPos = exitFloor.position = new Vector3(mazeWidth * 0.5f - wallSize * 0.5f, 0, mazeHeight * 0.5f + wallSize * 0.5f);
         exitFloor.eulerAngles = new Vector3(0, 180, 0);
     }
 
@@ -129,17 +154,40 @@ public class MazeGenerator : MonoBehaviour
         }
     }
 
-    public void RenderPath(List<Pos> points)
+    void RenderPath(List<Pos> points)
     {
         float half = wallSize * 0.5f;
-        for (int i = 0; i < points.Count; i++)
+        if (pathObjects == null)
         {
-            Vector3 position = new Vector3(-mazeWidth * 0.5f + points[i].X + half, 0.5f, -mazeHeight * 0.5f + points[i].Y + half);
-            Instantiate(pathFindObject, position, Quaternion.identity, transform);
+            pathObjects = new List<GameObject>();
+            for (int i = 0; i < points.Count; i++)
+            {
+                Vector3 position = new Vector3(-mazeWidth * 0.5f + points[i].X + half, 0.5f, -mazeHeight * 0.5f + points[i].Y + half);
+                pathObjects.Add(Instantiate(pathFindObject, position, Quaternion.identity, transform));
+            }
         }
+        else
+		{
+            for (int i = 0; i < pathObjects.Count; i++)
+			{
+                pathObjects[i].SetActive(true);
+			}
+		}
     }
 
-    public void Generate()
+    void RemovePath()
+	{
+        for (int i = 0; i < pathObjects.Count; i++)
+		{
+            if (pathObjects[i] != null)
+			{
+                Destroy(pathObjects[i]);
+			}
+		}
+        pathObjects.Clear();
+    }
+
+    void Generate()
     {
         maze = new MazeCell[mazeWidth, mazeHeight];
         for (int w = 0; w < mazeWidth; w += wallSize)
@@ -267,7 +315,6 @@ public class MazeGenerator : MonoBehaviour
         allVisited = true;
     }
 	#endregion
-
 
 	bool IsCellVisited(int x, int y)
     {

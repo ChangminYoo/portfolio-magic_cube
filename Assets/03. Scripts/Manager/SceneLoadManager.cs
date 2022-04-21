@@ -19,7 +19,7 @@ public class SceneLoadManager : MonoBehaviour
     public string SelectScene => "SelectScene";
     public string WaveGameScene => "Game1";
     public string CubeGameScene => "Game2";
-
+    public string MazeGameScene => "Game3";
 
     protected static SceneLoadManager instance;
     public static SceneLoadManager Instance
