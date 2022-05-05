@@ -1,4 +1,4 @@
-# Unity 포트폴리오
+# MagicCube
 
 ## 제작 환경 : Unity, C#
 
