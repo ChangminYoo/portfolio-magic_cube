@@ -803,10 +803,35 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2232851302858082126, guid: ece737706b31d4543ac2c150f8dfde80,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3437300345375672205, guid: ece737706b31d4543ac2c150f8dfde80,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5310326143706410533, guid: ece737706b31d4543ac2c150f8dfde80,
+        type: 3}
+      propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7009162674176306674, guid: ece737706b31d4543ac2c150f8dfde80,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7009162674176306674, guid: ece737706b31d4543ac2c150f8dfde80,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058000659769034261, guid: ece737706b31d4543ac2c150f8dfde80,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8137403942335048772, guid: ece737706b31d4543ac2c150f8dfde80,
         type: 3}

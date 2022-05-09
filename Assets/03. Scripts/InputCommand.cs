@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public interface ICommand
 {
@@ -44,20 +42,40 @@ public class JumpCommand : ICommand
 
 public class AttackCommand : ICommand
 {
-	public float NextAttackTime { get; set; }
-	public float CoolTime { get; private set; }
-	public AttackCommand()
+	public virtual void Execute(StateMachine stateMachine)
 	{
-		NextAttackTime = 0f;
-		CoolTime = 1f;
+		stateMachine.ChangeState(stateMachine.AttackState);
+	}
+}
+
+public class SkillCommand : ICommand
+{
+	public float NextAttackTime { get; protected set; }
+	public float CoolTime { get; protected set; }
+	public bool IsStartCoolTime { get; set; }
+
+	public SkillCommand()
+	{
+		CoolTime = 0f;
+		NextAttackTime = IngameManager.Instance.SkillCoolTime;
 	}
 
 	public void Execute(StateMachine stateMachine)
 	{
-		if (CoolTime < Time.time - NextAttackTime)
+		if (CoolTime <= 0f)
 		{
-			NextAttackTime = Time.time;
-			stateMachine.ChangeState(stateMachine.AttackState);
+			CoolTime = NextAttackTime;
+			IsStartCoolTime = true;
+
+			stateMachine.ChangeState(stateMachine.SkillState);
+		}
+	}
+
+	public void CoolDown()
+	{
+		if (CoolTime > 0f)
+		{
+			CoolTime -= Time.deltaTime;
 		}
 	}
 }

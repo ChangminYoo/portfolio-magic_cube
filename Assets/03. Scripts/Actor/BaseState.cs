@@ -112,3 +112,18 @@ public class AttackState : BaseState
 		actor.ResetAnimation(stateMachine.GetAttackHash(), true);
 	}
 }
+
+public class SkillState : BaseState
+{
+	public SkillState(StateMachine newStateMachine, Actor actor)
+		   : base(newStateMachine, actor) { }
+
+	public override void Enter()
+	{
+		actor.SetAnimation(stateMachine.GetAttackHash(), true);
+	}
+	public override void Exit()
+	{
+		actor.ResetAnimation(stateMachine.GetAttackHash(), true);
+	}
+}

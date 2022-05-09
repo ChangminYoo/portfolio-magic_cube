@@ -58,6 +58,8 @@ public class IngameManager : MonoBehaviour
     float playerStamina = 100;
     [SerializeField]
     float monter1Hp = 100;
+    [SerializeField, HideInInspector]
+    float skillCoolTime = 10f;
 
     [InspectorName("Game Condition")]
     [SerializeField]
@@ -75,6 +77,7 @@ public class IngameManager : MonoBehaviour
     public int WaveGameClearPoint => waveGameClearPoint;
     public int WeaponDropPoint => weaponDropPoint;
     public int WaveGameSpawnTerm => waveGameSpawnTerm;
+    public float SkillCoolTime => skillCoolTime;
 
     void Awake()
     {

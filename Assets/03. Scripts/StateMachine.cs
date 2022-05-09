@@ -9,13 +9,15 @@ public class StateMachine
 	public int JumpStateHash { get { return Animator.StringToHash("Jump"); } }
 	public int MoveStateHash { get { return Animator.StringToHash("Move Speed"); } }
 	public int WalkBackStateHash { get { return Animator.StringToHash("Walk Backward"); } }	
+	public int DeadStateHash { get { return Animator.StringToHash("Die"); } }
 	public int ProjectileRightAttackHash { get { return Animator.StringToHash("Projectile Right Attack"); } }
 	public int CrossbowShootAttackHash { get { return Animator.StringToHash("Crossbow Shoot Attack"); } }
 	public int THSwordMeleeAttack1Hash { get { return Animator.StringToHash("TH Sword Melee Attack 1"); } }
 	public int THSwordMeleeAttack2Hash { get { return Animator.StringToHash("TH Sword Melee Attack 2"); } }
 	public int MeleeRightAttack1Hash { get { return Animator.StringToHash("Melee Right Attack 1"); } }
 	public int MeleeRightAttack2Hash { get { return Animator.StringToHash("Melee Right Attack 2"); } }
-	public int DeadStateHash { get { return Animator.StringToHash("Die"); } }
+	public int CrossbowShootSkillHash { get { return Animator.StringToHash("Crossbow Shoot Skill"); } }
+	public int SpinSkillHash { get { return Animator.StringToHash("Spin Skill"); } }
 
 	// State
 	public IdleState IdleState { get; private set; }
@@ -23,6 +25,7 @@ public class StateMachine
 	public DashState DashState { get; private set; }
 	public JumpState JumpState { get; private set; }
 	public AttackState AttackState { get; private set; }
+	public SkillState SkillState { get; private set; }
 	public DeadState DeadState { get; private set; }
 	public BaseState CurrentState { get; private set; }
 
@@ -37,6 +40,7 @@ public class StateMachine
 		MoveState = new MoveState(this, newActor);
 		DashState = new DashState(this, newActor);
 		AttackState = new AttackState(this, newActor);
+		SkillState = new SkillState(this, newActor);
 		JumpState = new JumpState(this, newActor);
 		DeadState = new DeadState(this, newActor);
 
@@ -91,6 +95,30 @@ public class StateMachine
 				break;
 			case ClassType.Archer:
 				val = CrossbowShootAttackHash;
+				break;
+			default:
+				break;
+		}
+
+		return val;
+	}
+
+	public int GetSkillHash()
+	{
+		int val = ProjectileRightAttackHash;
+		switch (Owner.CurrentClass)
+		{
+			case ClassType.Barbarian:
+				
+				break;
+			case ClassType.Knight:
+				
+				break;
+			case ClassType.Wizard:
+				
+				break;
+			case ClassType.Archer:
+				
 				break;
 			default:
 				break;

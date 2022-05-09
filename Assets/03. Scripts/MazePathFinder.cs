@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class Pos
+public struct Pos
 {
 	public Pos(int x, int y)
 	{
@@ -24,14 +24,14 @@ public class MazePathFinder
 		Right = 3
 	}
 
-	struct PQNode : IComparable<PQNode>
+	struct Node : IComparable<Node>
 	{
 		public int F;
 		public int G;
 		public int X;
 		public int Y;
 
-		public int CompareTo(PQNode other)
+		public int CompareTo(Node other)
 		{
 			if (F == other.F)
 			{
@@ -69,16 +69,11 @@ public class MazePathFinder
 		int[] cost = new int[] { 10, 10, 10, 10 };
 		int defaultCost = 10;
 
-		// F = G + H
-		// F = 최종 점수 (작을 수록 좋음, 경로에 따라 달라짐)
-		// G = 시작점에서 해당 좌표까지 이동하는데 드는 비용 (작을 수록 좋음, 경로에 따라 달라짐)
-		// H = 목적지에서 얼마나 가까운지 (작을 수록 좋음, 고정)
+		// F = 최종 점수
+		// G = 시작점에서 해당 좌표까지 이동하는데 드는 비용
+		// H = 목적지에서 얼마나 가까운지
 
 		bool[,] visited = new bool[width, height];
-
-		// 초기화
-		// 발견X => MaxValue
-		// 발견O => F = G + H
 		int[,] open = new int[width, height];
 		for (int y = 0; y < height; y++)
 		{
@@ -90,14 +85,14 @@ public class MazePathFinder
 
 		Pos[,] parent = new Pos[width, height];
 
-		PriorityQueue<PQNode> pq = new PriorityQueue<PQNode>();
+		PriorityQueue<Node> pq = new PriorityQueue<Node>();
 		open[X, Y] = defaultCost * (Mathf.Abs((width - 1) - Y) + Mathf.Abs((height - 1) - Y));
-		pq.Push(new PQNode() { F = open[X, Y], G = 0, Y = Y, X = X });
+		pq.Push(new Node() { F = open[X, Y], G = 0, Y = Y, X = X });
 		parent[X, Y] = new Pos(X, Y);
 
 		while (pq.Count > 0)
 		{
-			PQNode node = pq.Pop();
+			Node node = pq.Pop();
 
 			if (visited[node.X, node.Y]) continue;
 
@@ -139,7 +134,7 @@ public class MazePathFinder
 				if (open[nextX, nextY] < g + h) continue;
 				open[nextX, nextY] = g + h;
 
-				pq.Push(new PQNode() { F = g + h, G = g, X = nextX, Y = nextY });
+				pq.Push(new Node() { F = g + h, G = g, X = nextX, Y = nextY });
 				parent[nextX, nextY] = new Pos(node.X, node.Y);
 			}
 		}

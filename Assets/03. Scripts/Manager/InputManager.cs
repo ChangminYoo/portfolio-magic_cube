@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class InputManager
 {
@@ -11,6 +12,7 @@ public class InputManager
 	DashCommand commandDash;
 	JumpCommand commandJump;
 	AttackCommand commandAttack;
+	SkillCommand commandSkill;
 
 	JoyStick joystick;
 	InputButtonEvent attackButton;
@@ -18,9 +20,11 @@ public class InputManager
 	InputButtonEvent dashButton;
 	InputButtonEvent skillButton;
 
-	bool isPressedAttack = false;
-	bool isPressedJump = false;
-	bool isPressedSkill = false;
+	Image coolTimeImg;
+
+	bool isPressedAttack;
+	bool isPressedJump;
+	bool isPressedSkill;
 
 	public void SetCommand(StateMachine newStateMachine)
 	{
@@ -31,6 +35,7 @@ public class InputManager
 		commandJump = new JumpCommand();
 		commandAttack = new AttackCommand();
 		commandIdle = new IdleCommand();
+		commandSkill = new SkillCommand();
 
 		SetInputCanvas();
 	}
@@ -42,6 +47,7 @@ public class InputManager
 		commandJump = null;
 		commandAttack = null;
 		commandIdle = null;
+		commandSkill = null;
 
 		attackButton.onClick.RemoveAllListeners();
 		jumpButton.onClick.RemoveAllListeners();
@@ -72,17 +78,18 @@ public class InputManager
 		{
 			command = commandAttack;
 		}
-		if (isPressedSkill)
+		else if (isPressedSkill)
 		{
-			
+			command = commandSkill;
 		}
+
 		if (isPressedJump)
 		{
 			command = commandJump;
 		}
 
 		command.Execute(stateMachine);
-
+		UpdateCoolTime();
 		ResetComand();
 	}
 
@@ -98,9 +105,10 @@ public class InputManager
 
 		attackButton.onClick.AddListener(() => isPressedAttack = true);
 		jumpButton.onClick.AddListener(() => isPressedJump = true);
-		skillButton.onClick.AddListener(() => isPressedSkill = true); ;
-	}
+		skillButton.onClick.AddListener(() => StartSkillCoolTime());
 
+		coolTimeImg = skillButton.transform.Find("CoolTime").GetComponent<Image>();
+	}
 
 	void ResetComand()
 	{
@@ -108,5 +116,30 @@ public class InputManager
 		isPressedAttack = false;
 		isPressedJump = false;
 		isPressedSkill = false;
+	}
+
+	void StartSkillCoolTime()
+	{
+		coolTimeImg.fillAmount = 1f;
+		isPressedSkill = true;
+	}
+
+	void UpdateCoolTime()
+	{
+		if (commandAttack == null || commandSkill == null) return;
+
+		if (commandSkill.IsStartCoolTime)
+		{
+			commandSkill.CoolDown();
+
+			float amount = commandSkill.CoolTime / commandSkill.NextAttackTime;
+			if (amount <= 0f)
+			{
+				amount = 0f;
+				commandSkill.IsStartCoolTime = false;
+			}
+
+			coolTimeImg.fillAmount = amount;
+		}
 	}
 }
